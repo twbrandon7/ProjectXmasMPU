@@ -68,7 +68,11 @@ event.on('serial_port_ready', function () {
         var connectedSound = new Player(__dirname + "/" + "./audio/connected.mp3");
         connectedSound.play();
         connectedSound.on("player_exit", function () {
-            localEvent.emit("ready");
+            whi.scaleTo(255, 1000, function() {
+                whi.scaleTo(0, 1000, function() {
+                    localEvent.emit("ready");
+                });
+            });
         });
     });
 
@@ -76,4 +80,5 @@ event.on('serial_port_ready', function () {
 
 localEvent.on("ready", function () {
     console.log("\n\n READY");
+    
 });

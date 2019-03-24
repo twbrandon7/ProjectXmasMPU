@@ -31,7 +31,7 @@ event.on('serial_port_ready', function () {
     startPlayer.play();
     startPlayer.on("player_exit", function () {
         setTimeout(function () {
-            var networkSound = new Player(__dirname + "/" + "./audio/blue_line.mp3");
+            var networkSound = new Player(__dirname + "/" + "./audio/waiting_network.mp3");
             networkSound.play();
             networkSound.on("player_exit", function () {
                 connectivity(function (online) {

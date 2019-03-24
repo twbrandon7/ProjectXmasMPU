@@ -11,7 +11,6 @@ function Player(path) {
     this.event = new EventEmitter();
 
     this.on = function (name, cb) {
-        console.log("YO");
         this.event.on(name, cb);
     }
 
@@ -38,7 +37,6 @@ function Player(path) {
                 if (error !== null) {
                     console.log("exec error:", error);
                 }
-                console.log("Exit Player");
                 eventLocal.emit('player_exit', { path: path });
             });
     }

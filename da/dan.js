@@ -38,7 +38,10 @@ var dan = (function () {
         csmapi.set_endpoint(endpoint);
 
         var retry_count = 0;
-        function register_callback (result, password = '') {
+        function register_callback (result, password) {
+            if(!password) {
+                password = '';
+            }
             if (result) {
                 //if (!_registered) {
                 _registered = true;

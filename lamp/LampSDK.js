@@ -41,7 +41,6 @@ port.on('error', function (err) {
     console.log('Error: ', err.message)
 });
 
-
 function Lamp(name){
     var name = name;
     var tick = 10;

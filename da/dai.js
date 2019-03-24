@@ -2,6 +2,9 @@
  * Created by kuan on 2018/8/27.
  * Modified by Li-Xian Chen 2019/3/15
  */
+var EventEmitter = require('events').EventEmitter; 
+var event = new EventEmitter(); 
+
 function isFunction(functionToCheck) {
     return functionToCheck && {}.toString.call(functionToCheck) === '[object Function]';
 }
@@ -18,18 +21,19 @@ var dai = function (mac, no) {
     var register = function (callback, forcePull) {
 
         var pull = function (ODFName, data) {
-            console.log(ODFName, data)
+            event.emit('pull', {odf: ODFName, data: data});
         };
 
         dan.init(pull, "http://iottalk.niu.edu.tw", mac, {
             'dm_name': 'XmasTree',
-            'd_name': no.toString() + ".Voting",
+            'd_name': no.toString() + ".XmasTree",
             'u_name': 'yb',
             'is_sim': false,
             'df_list': ["xmas_tree_idf", "xmas_tree_odf"]
 
         }, function (result) {
             console.log(mac, ' has successfully registered on : ', result);
+            event.emit('registered');
             if(isFunction(callback)) {
                 callback();
             }
@@ -67,14 +71,20 @@ var dai = function (mac, no) {
         dan.down();
     }
 
+    var on = function(name, cb) {
+        event.on(name, cb);
+    }
+
     return {
         register: register,
         deregister: deregister,
         push: push,
         mac: getMac(),
         up : up,
-        down : down
+        down : down,
+        on: on
     }
 };
 
+//module.exports = dai;
 exports.dai = dai;

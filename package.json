@@ -9,6 +9,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "internet-available": "^1.0.0"
+    "connectivity": "^1.0.1",
+    "macaddress": "^0.2.9",
+    "request": "^2.88.0"
   }
 }

@@ -30,6 +30,7 @@ function Player(path) {
         var date = new Date();
         startTime = date.getTime();
         this.event.emit('player_start', { path: path });
+        var eventLocal = this.event;
         script = exec('sh ' + __dirname + '/../bin/play.sh ' + path,
             function (error, stdout, stderr) {
                 console.log(stdout);
@@ -37,6 +38,8 @@ function Player(path) {
                 if (error !== null) {
                     console.log("exec error:", error);
                 }
+                console.log("Exit Player");
+                eventLocal.emit('player_exit', { path: path });
             });
     }
 

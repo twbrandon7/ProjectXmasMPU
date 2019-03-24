@@ -32,10 +32,12 @@ function Player(path) {
         var eventLocal = this.event;
         script = exec('sh ' + __dirname + '/../bin/play.sh ' + path,
             function (error, stdout, stderr) {
-                console.log(stdout);
-                console.log(stderr);
+                // console.log(stdout);
+                // console.log(stderr);
                 if (error !== null) {
                     console.log("exec error:", error);
+                } else {
+                    console.log("Music Played");
                 }
                 eventLocal.emit('player_exit', { path: path });
             });

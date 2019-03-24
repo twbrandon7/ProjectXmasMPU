@@ -62,16 +62,21 @@ event.on('serial_port_ready', function () {
 
     localEvent.on("ready_to_iottalk", function () {
         dai.register();
+        blu.scaleTo(125, 1000);
     });
 
     dai.on("registered", function () {
         var connectedSound = new Player(__dirname + "/" + "./audio/connected.mp3");
         connectedSound.play();
         connectedSound.on("player_exit", function () {
-            localEvent.emit("ready");
+            blu.scaleTo(0, 1000);
+            whi.scaleTo(255, 1000, function(){
+                whi.scaleTo(0, 1000, function(){
+                    localEvent.emit("ready");
+                });
+            });
         });
     });
-
 });
 
 localEvent.on("ready", function () {

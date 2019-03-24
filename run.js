@@ -1,5 +1,7 @@
 require("./lib/ArrayTools");
 
+console.log("Ready to run.");
+
 var macaddress = require('macaddress');
 var macAddr = macaddress.networkInterfaces();
 
@@ -21,31 +23,37 @@ var pk2 = new Lamp("pk2");
 var blu = new Lamp("blu");
 var whi = new Lamp("whi");
 
+var sync = false;
+var startPlayer = new Player(__dirname + "/" + "./audio/blue_line.mp3");
+startPlayer.play();
+startPlayer.on("player_exit", function () {
+    console.log("DONE");
+    sync = true;
+});
+
 event.on('serial_port_ready', function () {
+    
+    while(!sync);
+
     pk1.scaleTo(0, 1000);
     pk2.scaleTo(0, 1000);
     blu.scaleTo(0, 1000);
     whi.scaleTo(0, 1000);
 
-    var startPlayer = new Player(__dirname + "/" + "./audio/blue_line.mp3");
-    startPlayer.play();
-    startPlayer.on("player_exit", function () {
-        setTimeout(function () {
-            var networkSound = new Player(__dirname + "/" + "./audio/waiting_network.mp3");
-            networkSound.play();
-            networkSound.on("player_exit", function () {
-                connectivity(function (online) {
-                    pk1.scaleTo(125, 1000);
-                    if (online) {
-                        localEvent.emit('network_online');
-                    } else {
-                        localEvent.emit('network_offline');
-                    }
-                });
+    setTimeout(function () {
+        var networkSound = new Player(__dirname + "/" + "./audio/waiting_network.mp3");
+        networkSound.play();
+        networkSound.on("player_exit", function () {
+            connectivity(function (online) {
+                pk1.scaleTo(125, 1000);
+                if (online) {
+                    localEvent.emit('network_online');
+                } else {
+                    localEvent.emit('network_offline');
+                }
             });
-        }, 1000);
-
-    });
+        });
+    }, 1000);
 
     localEvent.on("network_online", function () {
         pk1.scaleTo(0, 1000);
@@ -70,8 +78,8 @@ event.on('serial_port_ready', function () {
         connectedSound.play();
         connectedSound.on("player_exit", function () {
             blu.scaleTo(0, 1000);
-            whi.scaleTo(255, 1000, function(){
-                whi.scaleTo(0, 1000, function(){
+            whi.scaleTo(255, 1000, function () {
+                whi.scaleTo(0, 1000, function () {
                     localEvent.emit("ready");
                 });
             });

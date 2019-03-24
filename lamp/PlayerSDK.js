@@ -34,12 +34,12 @@ function Player(path) {
             function (error, stdout, stderr) {
                 // console.log(stdout);
                 // console.log(stderr);
+                eventLocal.emit('player_exit');
                 if (error !== null) {
                     console.log("exec error:", error);
                 } else {
                     console.log("Music Played");
                 }
-                eventLocal.emit('player_exit', { path: path });
             });
     }
 

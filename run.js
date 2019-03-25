@@ -50,7 +50,12 @@ event.on('serial_port_ready', function () {
         connectivity(function (online) {
             pk1.scaleTo(125, 1000);
             if (online) {
-                localEvent.emit('network_online');
+                pk1.scaleTo(0, 1000);
+                var networkSound = new Player(__dirname + "/" + "./audio/connected.mp3");
+                networkSound.play();
+                networkSound.on("player_exit", function () {
+                    localEvent.emit('network_online');
+                });
             } else {
                 pk1.scaleTo(0, 2000, function () {
                     localEvent.emit('network_retry');
@@ -60,15 +65,10 @@ event.on('serial_port_ready', function () {
     });
 
     localEvent.on("network_online", function () {
-        pk1.scaleTo(0, 1000);
-        var networkSound = new Player(__dirname + "/" + "./audio/connected.mp3");
+        var networkSound = new Player(__dirname + "/" + "./audio/waiting_iottalk.mp3");
         networkSound.play();
         networkSound.on("player_exit", function () {
-            networkSound = new Player(__dirname + "/" + "./audio/waiting_iottalk.mp3");
-            networkSound.play();
-            networkSound.on("player_exit", function () {
-                localEvent.emit("ready_to_iottalk");
-            });
+            localEvent.emit("ready_to_iottalk");
         });
     });
 

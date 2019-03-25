@@ -31,21 +31,32 @@ event.on('serial_port_ready', function () {
     var startPlayer = new Player(__dirname + "/" + "./audio/blue_line.mp3");
     startPlayer.play();
     startPlayer.on("player_exit", function () {
-        setTimeout(function () {
-            var networkSound = new Player(__dirname + "/" + "./audio/waiting_network.mp3");
-            networkSound.play();
-            networkSound.on("player_exit", function () {
-                connectivity(function (online) {
-                    pk1.scaleTo(125, 1000);
-                    if (online) {
-                        localEvent.emit('network_online');
-                    } else {
-                        localEvent.emit('network_offline');
-                    }
+        connectivity(function (online) {
+            pk1.scaleTo(125, 1000);
+            if (online) {
+                localEvent.emit('network_online');
+            } else {
+                var networkSound = new Player(__dirname + "/" + "./audio/waiting_network.mp3");
+                networkSound.play();
+                networkSound.on("player_exit", function () {
+                    localEvent.emit('network_retry');
                 });
-            });
-        }, 1000);
 
+            }
+        });
+    });
+
+    localEvent.on("network_retry", function () {
+        connectivity(function (online) {
+            pk1.scaleTo(125, 1000);
+            if (online) {
+                localEvent.emit('network_online');
+            } else {
+                pk1.scaleTo(0, 2000, function () {
+                    localEvent.emit('network_retry');
+                });
+            }
+        });
     });
 
     localEvent.on("network_online", function () {
@@ -69,8 +80,8 @@ event.on('serial_port_ready', function () {
         var connectedSound = new Player(__dirname + "/" + "./audio/connected.mp3");
         connectedSound.play();
         connectedSound.on("player_exit", function () {
-            whi.scaleTo(255, 1000, function() {
-                whi.scaleTo(0, 1000, function() {
+            whi.scaleTo(255, 1000, function () {
+                whi.scaleTo(0, 1000, function () {
                     localEvent.emit("ready");
                 });
             });
@@ -81,5 +92,5 @@ event.on('serial_port_ready', function () {
 
 localEvent.on("ready", function () {
     console.log("\n\n READY");
-    
+
 });

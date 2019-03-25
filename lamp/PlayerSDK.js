@@ -36,7 +36,7 @@ function Player(path) {
                 // console.log(stderr);
                 eventLocal.emit('player_exit');
                 if (error !== null) {
-                    console.log("exec error:", error);
+                    console.error("exec error:", error);
                 } else {
                     console.log("Music Played");
                 }

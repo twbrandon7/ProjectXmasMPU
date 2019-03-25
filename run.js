@@ -1,4 +1,5 @@
 require("./lib/ArrayTools");
+require("./lib/LoggerUtil");
 
 var macaddress = require('macaddress');
 var macAddr = macaddress.networkInterfaces();

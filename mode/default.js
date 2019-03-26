@@ -2,7 +2,7 @@ var EventEmitter = require('events').EventEmitter;
 var event = new EventEmitter();
 var playerSDK = require("../lamp/PlayerSDK");
 var Player = playerSDK.Player;
-var trigger = playerSDK.trigger;
+var trigger = null;
 
 var pk1 = null, pk2 = null, blu = null, whi = null;
 
@@ -34,8 +34,6 @@ function play() {
 
     // var player = document.getElementById("music");
     var debugI = 0;
-
-    var trigger = player.trigger;
 
     setTimeout(function () {
         player.play();
@@ -349,6 +347,7 @@ function init(_pk1, _pk2, _blu, _whi) {
         player.stop();
     }
     plyer = new Player(__dirname + "/../audio/Kataware_Doki.mp3");
+    trigger = player.trigger;
 }
 
 function on(name, func) {

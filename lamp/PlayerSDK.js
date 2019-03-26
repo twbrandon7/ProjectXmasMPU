@@ -37,14 +37,15 @@ function Player(pathInit) {
             function (error, stdout, stderr) {
                 // console.log(stdout);
                 // console.log(stderr);
-                eventLocal.emit('player_exit');
-                eventLocal.emit('finish');
                 if (error !== null) {
                     console.error("exec error:", error);
                 } else {
                     console.log("Music Played");
                 }
+                sectionLock = [];
                 isPlaying = false;
+                eventLocal.emit('player_exit');
+                eventLocal.emit('finish');
             });
     }
 

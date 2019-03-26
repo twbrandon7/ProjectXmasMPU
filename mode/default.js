@@ -46,6 +46,8 @@ function play() {
     // var player = document.getElementById("music");
     var debugI = 0;
 
+    var trigger = player.trigger;
+
     setTimeout(function () {
         player.play();
         console.log("DEFULT MUSIC START");

@@ -40,14 +40,23 @@ function Player(pathInit) {
                 if (error !== null) {
                     console.error("exec error:", error);
                 } else {
-                    isPlaying = false;
                     console.log("Music Played");
                 }
+                isPlaying = false;
             });
     }
 
     this.setPath = function(pathIn) {
         path = pathIn;
+    }
+
+    this.trigger = function(timeIn, func) {
+        var playerTime = time;
+        if (playerTime >= timeIn && playerTime < timeIn + 1 && setSection(timeIn + "")) {
+            if (isFunction(func)) {
+                func();
+            }
+        }
     }
 
     setInterval(function () {

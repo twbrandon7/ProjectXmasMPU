@@ -35,6 +35,10 @@ function play() {
     // var player = document.getElementById("music");
     var debugI = 0;
 
+    player.on("player_exit", function() {
+        event.emit("done");
+    });
+
     setTimeout(function () {
         player.play();
         console.log("DEFULT MUSIC START");
@@ -330,7 +334,6 @@ function play() {
                 blu.scaleTo(0, 1600, function () {
                     player.stop();
                     console.log("DONE");
-                    event.emit("done");
                 });
             });
 

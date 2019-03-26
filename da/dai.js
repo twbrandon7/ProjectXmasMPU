@@ -55,8 +55,8 @@ var dai = function (mac, no) {
         dan.push(idf, [data]);
     }
 
-    var push = function (data) {
-        dan.push("xmas_tree_idf", [JSON.stringify(data)]);
+    var push = function (idf_name, data) {
+        dan.push(/*"xmas_tree_idf"*/idf_name, [data]);
     };
 
     var getMac = function () {

@@ -2,7 +2,8 @@ var EventEmitter = require('events').EventEmitter;
 const exec = require('child_process').exec;
 const kill = require('../lib/killSDK');
 
-function Player(path) {
+function Player(pathInit) {
+    var path = (pathInit) ? pathInit : "";
     var time = 0;
     var isPlaying = false;
     var startTime = 0;
@@ -35,12 +36,18 @@ function Player(path) {
                 // console.log(stdout);
                 // console.log(stderr);
                 eventLocal.emit('player_exit');
+                eventLocal.emit('finish');
                 if (error !== null) {
                     console.error("exec error:", error);
                 } else {
+                    isPlaying = false;
                     console.log("Music Played");
                 }
             });
+    }
+
+    this.setPath = function(pathIn) {
+        path = pathIn;
     }
 
     setInterval(function () {

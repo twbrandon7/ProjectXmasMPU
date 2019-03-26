@@ -4,6 +4,7 @@ require("./lib/LoggerUtil");
 var macaddress = require('macaddress');
 var macAddr = macaddress.networkInterfaces();
 
+var defaultMode = require("./mode/default");
 var connectivity = require('connectivity');
 var LampSDK = require("./lamp/LampSDK");
 var playerSDK = require("./lamp/PlayerSDK");
@@ -12,9 +13,7 @@ var dai = require('./da/dai').dai(macAddr, 32);
 
 var Lamp = LampSDK.Lamp;
 var event = LampSDK.event;
-var player = playerSDK.player;
 var Player = playerSDK.Player;
-var trigger = playerSDK.trigger;
 var localEvent = new EventEmitter();
 
 var pk1 = new Lamp("pk1");
@@ -27,6 +26,8 @@ event.on('serial_port_ready', function () {
     pk2.scaleTo(0, 1000);
     blu.scaleTo(0, 1000);
     whi.scaleTo(0, 1000);
+
+    defaultMode.init(pk1, pk2, blu, whi);
 
     var startPlayer = new Player(__dirname + "/" + "./audio/blue_line.mp3");
     startPlayer.play();
@@ -77,6 +78,7 @@ event.on('serial_port_ready', function () {
     });
 
     dai.on("registered", function () {
+        dai.up();
         var connectedSound = new Player(__dirname + "/" + "./audio/connected.mp3");
         connectedSound.play();
         connectedSound.on("player_exit", function () {
@@ -90,7 +92,47 @@ event.on('serial_port_ready', function () {
 
 });
 
+function getStatusString(status) {
+    return JSON.stringify({
+        time: (new Date()).getTime(),
+        status: status
+    });
+}
+
+
+
+var currentStatus = "ready";
+
 localEvent.on("ready", function () {
     console.log("\n\n READY");
 
+    // heartbeat
+    setInterval(function () {
+        dai.push("xmas_tree_idf", getStatusString(currentStatus));
+    }, 5000);
+
+    dai.on("pull", function (obj) {
+        try {
+            if (obj.odf == "xmas_tree_odf") {
+                var json = JSON.parse(obj.data);
+                if ((new Date()).getTime() - json.time <= 5000) {
+                    if (json.action == "play") {
+                        if (currentStatus == "ready") {
+
+                            currentStatus = "playing";
+                            defaultMode.play();
+                            defaultMode.on("done", function() {
+                                currentStatus = "ready";
+                            });
+
+                        } else {
+                            console.log("WAIT");
+                        }
+                    }
+                }
+            }
+        } catch (e) {
+            console.error(e);
+        }
+    });
 });

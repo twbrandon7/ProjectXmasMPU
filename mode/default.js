@@ -6,7 +6,7 @@ var trigger = playerSDK.trigger;
 
 var pk1 = null, pk2 = null, blu = null, whi = null;
 
-var player = new Player(__dirname + "/../audio/Kataware_Doki.mp3");
+var player = null;
 
 function stop() {
     pk1.scaleTo(0, 0);
@@ -16,18 +16,7 @@ function stop() {
     player.stop();
 }
 
-function fadeInOut(obj) {
-    obj.scaleTo(255, 1000, function(){
-        obj.scaleTo(0, 1000);
-    });
-}
-
 function play() {
-    fadeInOut(pk1);
-    fadeInOut(pk2);
-    fadeInOut(blu);
-    fadeInOut(whi);
-
     function dimmer(target, to, high, low) {
         setTimeout(function () {
             target.scaleTo(/*190*/high, 360, function () {
@@ -356,6 +345,10 @@ function init(_pk1, _pk2, _blu, _whi) {
     pk2 = _pk2;
     blu = _blu;
     whi = _whi;
+    if(player != null) {
+        player.stop();
+    }
+    plyer = new Player(__dirname + "/../audio/Kataware_Doki.mp3");
 }
 
 function on(name, func) {

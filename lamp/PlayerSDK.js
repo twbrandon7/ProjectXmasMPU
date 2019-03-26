@@ -26,7 +26,9 @@ function Player(pathInit) {
     }
 
     this.play = function () {
+        time = 0;
         isPlaying = true;
+        triggerTimer();
         var date = new Date();
         startTime = date.getTime();
         this.event.emit('player_start', { path: path });
@@ -59,13 +61,17 @@ function Player(pathInit) {
         }
     }
 
-    setInterval(function () {
-        if (isPlaying) {
-            var date = new Date();
-            current = date.getTime();
-            time = (current - startTime) / 1000;
-        }
-    }, 1);
+    function triggerTimer() {
+        var counter = setInterval(function () {
+            if (isPlaying) {
+                var date = new Date();
+                current = date.getTime();
+                time = (current - startTime) / 1000;
+            } else {
+                clearInterval(counter);
+            }
+        }, 1);
+    }
 }
 
 function isFunction(functionToCheck) {

@@ -66,6 +66,7 @@ event.on('serial_port_ready', function () {
     });
 
     localEvent.on("network_online", function () {
+        pk1.scaleTo(0, 1000);
         var networkSound = new Player(__dirname + "/" + "./audio/waiting_iottalk.mp3");
         networkSound.play();
         networkSound.on("player_exit", function () {

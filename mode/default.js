@@ -346,7 +346,7 @@ function init(_pk1, _pk2, _blu, _whi) {
     if(player != null) {
         player.stop();
     }
-    plyer = new Player(__dirname + "/../audio/Kataware_Doki.mp3");
+    player = new Player(__dirname + "/../audio/Kataware_Doki.mp3");
     trigger = player.trigger;
 }
 

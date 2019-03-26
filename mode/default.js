@@ -16,11 +16,17 @@ function stop() {
     player.stop();
 }
 
+function fadeInOut(obj) {
+    obj.scaleTo(255, 1000, function(){
+        obj.scaleTo(0, 1000);
+    });
+}
+
 function play() {
-    pk1.scaleTo(0, 1000);
-    pk2.scaleTo(0, 1000);
-    blu.scaleTo(0, 1000);
-    whi.scaleTo(0, 1000);
+    fadeInOut(pk1);
+    fadeInOut(pk2);
+    fadeInOut(blu);
+    fadeInOut(whi);
 
     function dimmer(target, to, high, low) {
         setTimeout(function () {

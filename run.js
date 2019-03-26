@@ -123,6 +123,7 @@ localEvent.on("ready", function () {
                             defaultMode.play();
                             defaultMode.on("done", function() {
                                 currentStatus = "ready";
+                                console.log("DEFAULT MODE END");
                             });
 
                         } else {

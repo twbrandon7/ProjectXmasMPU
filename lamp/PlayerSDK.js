@@ -20,7 +20,7 @@ function Player(pathInit) {
     };
 
     this.stop = function () {
-        time = 0;
+        time = -1;
         isPlaying = false;
         kill("aplay");
     }

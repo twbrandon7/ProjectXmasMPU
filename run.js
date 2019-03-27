@@ -116,7 +116,7 @@ localEvent.on("ready", function () {
         try {
             if (obj.odf == "xmas_tree_odf") {
                 var json = JSON.parse(obj.data);
-                if ((new Date()).getTime() - json.time <= 5000) {
+                if ((new Date()).getTime() - json.time <= 10000) {
                     if (json.action == "play") {
                         if (currentStatus == "ready") {
 

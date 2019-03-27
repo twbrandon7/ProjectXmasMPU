@@ -24,7 +24,7 @@ var dai = function (mac, no) {
             event.emit('pull', {odf: ODFName, data: data});
         };
 
-        dan.init(pull, "https://iottalk.niu.edu.tw", mac, {
+        dan.init(pull, "http://iottalk.niu.edu.tw", mac, {
             'dm_name': 'XmasTree',
             'd_name': no.toString() + ".XmasTree",
             'u_name': 'yb',

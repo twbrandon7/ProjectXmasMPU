@@ -1,0 +1,63 @@
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
+metadata:
+  name: xmas-iottalk-server
+spec:
+  selector:
+    matchLabels:
+      app: xmas-iottalk-server
+  replicas: 1 #2 # tells deployment to run 2 pods matching the template
+  template:
+    metadata:
+      labels:
+        app: xmas-iottalk-server
+    spec:
+      containers:
+      - name: node
+        image: twbrandon7/run-node:10.15.3
+        ports:
+        - containerPort: 3000
+        volumeMounts:
+        - mountPath: /var/app
+          name: node-app-volume
+      volumes:
+      - name: node-app-volume
+        hostPath:
+          # directory location on host
+          path: /web/xmas.iottalk.niu.edu.tw/storage
+          # this field is optional
+          type: Directory
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: xmas-iottalk-server-service
+spec:
+  ports:
+  - name: main
+    port: 3000
+    protocol: TCP
+    targetPort: 3000
+  selector:
+    app: xmas-iottalk-server
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: xmas-iottalk-server-ingress
+  namespace: default
+spec:
+  tls:
+  - secretName: iottalk-niu-edu-tw-tls
+  rules:
+  - host: iottalk.niu.edu.tw
+    http:
+      paths:
+      - path: /xmas
+        backend:
+          serviceName: xmas-iottalk-server-service
+          servicePort: 3000

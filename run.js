@@ -5,6 +5,7 @@ var macaddress = require('macaddress');
 var macAddr = macaddress.networkInterfaces();
 
 var defaultMode = require("./mode/default");
+var blinkMode = require("./mode/blink");
 var connectivity = require('connectivity');
 var LampSDK = require("./lamp/LampSDK");
 var playerSDK = require("./lamp/PlayerSDK");
@@ -28,6 +29,7 @@ event.on('serial_port_ready', function () {
     whi.scaleTo(0, 1000);
 
     defaultMode.init(pk1, pk2, blu, whi);
+    blinkMode.init(pk1, pk2, blu, whi);
 
     var startPlayer = new Player(__dirname + "/" + "./audio/blue_line.mp3");
     startPlayer.play();
@@ -112,6 +114,8 @@ localEvent.on("ready", function () {
         dai.push("xmas_tree_idf", getStatusString(currentStatus));
     }, 5000);
 
+    blinkMode.play();
+
     dai.on("pull", function (obj) {
         try {
             if (obj.odf == "xmas_tree_odf") {
@@ -120,11 +124,13 @@ localEvent.on("ready", function () {
                     if (json.action == "play") {
                         if (currentStatus == "ready") {
 
+                            blinkMode.stop();
                             currentStatus = "playing";
                             defaultMode.play();
                             defaultMode.on("done", function() {
                                 currentStatus = "ready";
                                 console.log("DEFAULT MODE END");
+                                blinkMode.play();
                             });
 
                         } else {

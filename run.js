@@ -131,7 +131,9 @@ localEvent.on("ready", function () {
                                 defaultMode.on("done", function() {
                                     currentStatus = "ready";
                                     console.log("DEFAULT MODE END");
-                                    blinkMode.play();
+                                    setTimeout(function(){
+                                        blinkMode.play();
+                                    }, 5000);
                                 });
                             }, 2100);
 

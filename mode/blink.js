@@ -25,7 +25,7 @@ function play() {
             target.scaleTo(val, getRandom(1000, 2000), function() {
                 setTimeout(function(){
                     running[id] = false;
-                }, 600);
+                }, 800);
             });
         }
     }, 500);
@@ -36,10 +36,10 @@ function stop() {
     if(playerTimerId != null) {
         clearInterval(playerTimerId);
     }
-    pk1.scaleTo(0, 500);
-    pk2.scaleTo(0, 500);
-    blu.scaleTo(0, 500);
-    whi.scaleTo(0, 500);
+    pk1.scaleTo(0, 0);
+    pk2.scaleTo(0, 0);
+    blu.scaleTo(0, 0);
+    whi.scaleTo(0, 0);
 }
 
 function init(_pk1, _pk2, _blu, _whi) {

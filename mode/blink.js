@@ -23,7 +23,9 @@ function play() {
 
             var val = values[id];
             target.scaleTo(val, getRandom(1000, 2000), function() {
-                running[id] = false;
+                setTimeout(function(){
+                    running[id] = false;
+                }, 600);
             });
         }
     }, 500);

@@ -125,13 +125,15 @@ localEvent.on("ready", function () {
                         if (currentStatus == "ready") {
 
                             blinkMode.stop();
-                            currentStatus = "playing";
-                            defaultMode.play();
-                            defaultMode.on("done", function() {
-                                currentStatus = "ready";
-                                console.log("DEFAULT MODE END");
-                                blinkMode.play();
-                            });
+                            setTimeout(function() {
+                                currentStatus = "playing";
+                                defaultMode.play();
+                                defaultMode.on("done", function() {
+                                    currentStatus = "ready";
+                                    console.log("DEFAULT MODE END");
+                                    blinkMode.play();
+                                });
+                            }, 1000);
 
                         } else {
                             console.log("WAIT");

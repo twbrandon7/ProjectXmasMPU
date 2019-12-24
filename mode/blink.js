@@ -30,10 +30,10 @@ function stop() {
     if(playerTimerId != null) {
         clearInterval(playerTimerId);
     }
-    pk1.scaleTo(0, 1000);
-    pk2.scaleTo(0, 1000);
-    blu.scaleTo(0, 1000);
-    whi.scaleTo(0, 1000);
+    pk1.scaleTo(0, 500);
+    pk2.scaleTo(0, 500);
+    blu.scaleTo(0, 500);
+    whi.scaleTo(0, 500);
 }
 
 function init(_pk1, _pk2, _blu, _whi) {

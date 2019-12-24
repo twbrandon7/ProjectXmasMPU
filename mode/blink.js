@@ -13,6 +13,7 @@ function play() {
     var lamps = [pk1, pk2, blu, whi];
     var running = [false, false, false, false];
     var values = [0, 0, 0, 0, 0];
+    var waiting = [1000, 1250, 1500, 1750, 2000];
     playerTimerId = setInterval(function() {
         var id = getRandom(0, 4);
         if(!running[id]) {
@@ -22,7 +23,7 @@ function play() {
             values[id] = (values[id] == 255)? 0 : 255;
 
             var val = values[id];
-            target.scaleTo(val, getRandom(1000, 2000), function() {
+            target.scaleTo(val, waiting[getRandom(0, waiting.length)], function() {
                 setTimeout(function(){
                     running[id] = false;
                 }, 800);

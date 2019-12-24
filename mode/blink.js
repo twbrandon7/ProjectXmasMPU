@@ -36,10 +36,12 @@ function stop() {
     if(playerTimerId != null) {
         clearInterval(playerTimerId);
     }
-    pk1.scaleTo(0, 0);
-    pk2.scaleTo(0, 0);
-    blu.scaleTo(0, 0);
-    whi.scaleTo(0, 0);
+    setTimeout(function(){
+        pk1.scaleTo(0, 0);
+        pk2.scaleTo(0, 0);
+        blu.scaleTo(0, 0);
+        whi.scaleTo(0, 0);
+    }, 2000);
 }
 
 function init(_pk1, _pk2, _blu, _whi) {

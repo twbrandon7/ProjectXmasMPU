@@ -133,7 +133,7 @@ localEvent.on("ready", function () {
                                     console.log("DEFAULT MODE END");
                                     blinkMode.play();
                                 });
-                            }, 1000);
+                            }, 2100);
 
                         } else {
                             console.log("WAIT");

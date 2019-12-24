@@ -2,6 +2,8 @@ var EventEmitter = require('events').EventEmitter;
 var event = new EventEmitter();
 var pk1 = null, pk2 = null, blu = null, whi = null;
 
+var isRunning = false;
+
 var playerTimerId = null;
 
 function getRandom(min,max){
@@ -9,6 +11,8 @@ function getRandom(min,max){
 }
 
 function play() {
+    if(isRunning) return;
+    isRunning = true;
     console.log("BLINK MODE START");
     var lamps = [pk1, pk2, blu, whi];
     var running = [false, false, false, false];
@@ -33,6 +37,8 @@ function play() {
 }
 
 function stop() {
+    if(!isRunning) return;
+    isRunning = false;
     console.log("BLINK MODE STOP");
     if(playerTimerId != null) {
         clearInterval(playerTimerId);

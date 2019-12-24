@@ -11,14 +11,18 @@ function getRandom(min,max){
 function play() {
     console.log("BLINK MODE START");
     var lamps = [pk1, pk2, blu, whi];
-    var running = [false, false, false, false]
+    var running = [false, false, false, false];
+    var values = [0, 0, 0, 0, 0];
     playerTimerId = setInterval(function() {
         var id = getRandom(0, 4);
         if(!running[id]) {
             var target = lamps[id];
             running[id] = true;
 
-            target.scaleTo(getRandom(0, 255), getRandom(1000, 2000), function() {
+            values[id] = (values[id] == 255)? 0 : 255;
+
+            var val = values[id];
+            target.scaleTo(val, getRandom(1000, 2000), function() {
                 running[id] = false;
             });
         }

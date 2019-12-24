@@ -28,7 +28,7 @@ function play() {
                 }, 800);
             });
         }
-    }, 500);
+    }, 950);
 }
 
 function stop() {

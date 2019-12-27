@@ -8,7 +8,11 @@ var pk1 = null, pk2 = null, blu = null, whi = null;
 
 var player = null;
 
+var isPlaying = false;
+
 function stop() {
+    if(!isPlaying) return;
+    isPlaying = false;
     pk1.scaleTo(0, 0);
     pk2.scaleTo(0, 0);
     blu.scaleTo(0, 0);
@@ -17,6 +21,8 @@ function stop() {
 }
 
 function play() {
+    if(isPlaying) return;
+    isPlaying = true;
     function dimmer(target, to, high, low) {
         setTimeout(function () {
             target.scaleTo(/*190*/high, 360, function () {

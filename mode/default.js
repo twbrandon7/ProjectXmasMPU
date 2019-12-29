@@ -42,6 +42,7 @@ function play() {
     var debugI = 0;
 
     player.on("player_exit", function() {
+        isPlaying = false;
         event.emit("done");
     });
 
